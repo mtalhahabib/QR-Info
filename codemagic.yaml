@@ -1,7 +1,7 @@
 workflows:
   hello-world:
     name: QrInfo
-    
+    environment: iOS
       # Define your environment variables here, if needed
     scripts:
       # Script to install Flutter dependencies
