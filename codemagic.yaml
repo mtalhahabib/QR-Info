@@ -1,8 +1,6 @@
 workflows:
   hello-world:
-    name: QrInfo
-    environment:
-      iOS: true  # Assuming you want to set iOS as an environment variable
+    name: QrInfo  # Assuming you want to set iOS as an environment variable
     scripts:
       # Script to install Flutter dependencies
       - name: Install Flutter dependencies
