@@ -1,16 +1,14 @@
-# qrinfo
+# QR Info App
+- The QR Code Information Management App is a versatile application designed for warehouses, distributors, and businesses with extensive product inventories. 
+- It features dual interfaces – an intuitive admin interface for generating QR codes with vital information and a user interface enabling seamless scanning of QR codes for accessing product details on both** Android and iOS devices**.
+- Administrators can monitor QR code history, control user access, and securely store generated QR codes.
+- This app streamlines information retrieval and enhances data transparency for efficient operations.
 
-A new Flutter project.
+- 
+![qr1](https://github.com/mtalhahabib/qrinfo/assets/96326069/9d0d5551-26ba-4e0a-b6a2-40a0cfa1f844)
 
-## Getting Started
+![qr2](https://github.com/mtalhahabib/qrinfo/assets/96326069/c046be1a-7971-43a1-8dfe-a6a57e7895f8)
 
-This project is a starting point for a Flutter application.
+![qr3](https://github.com/mtalhahabib/qrinfo/assets/96326069/9da45593-2c7f-45ae-92c9-8a0edfafc919)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![qr4](https://github.com/mtalhahabib/qrinfo/assets/96326069/5b7dcb85-4e5f-4623-b741-9e4fe2600938)
