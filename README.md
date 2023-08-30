@@ -4,4 +4,4 @@
 - Administrators can monitor QR code history, control user access, and securely store generated QR codes.
 - This app streamlines information retrieval and enhances data transparency for efficient operations.
 
-![qr1](https://github.com/mtalhahabib/qrinfo/assets/96326069/28aff8cd-2ab1-4b7a-ab0e-9348b352e613)
+  ![qr1](https://github.com/mtalhahabib/qrinfo/assets/96326069/28aff8cd-2ab1-4b7a-ab0e-9348b352e613)
