@@ -1,14 +1,18 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../utils/utils.dart';
 
 class Upload {
-  void uploadData(id, name, product, model, lot_no, cat_no, expiry, medium,
-      distributor_name, image, context) {
-    CollectionReference chatsCollection =
-        FirebaseFirestore.instance.collection('qrData');
+  Future<void> uploadData(id, name, product, model, lot_no, cat_no, expiry,
+      medium, distributor_name, image, context) async {
+    final email = await FirebaseAuth.instance.currentUser!.email;
+    CollectionReference chatsCollection = FirebaseFirestore.instance
+        .collection('admins')
+        .doc(email)
+        .collection('qrData');
 
     DocumentReference newMessageRef = chatsCollection.doc();
     Map<String, dynamic> messageData = {
@@ -40,17 +44,25 @@ class Upload {
     final downloadUrl = await storageRef.getDownloadURL();
     return downloadUrl;
   }
-Future<void> deleteUser(id) async {
- try {
-      await FirebaseFirestore.instance.collection('users').doc(id).delete();
+
+  Future<void> deleteUser(id) async {
+    try {
+      final email = await FirebaseAuth.instance.currentUser!.email;
+      await FirebaseFirestore.instance
+        ..collection('admins').doc(email).collection('users').doc(id).delete();
       Utils.toastMessage('Document deleted successfully');
     } catch (e) {
       Utils.toastMessage('Error deleting document: $e');
     }
-}
-  void addUsertoDatabase(String username, String password, context) {
-    CollectionReference usersCollection =
-        FirebaseFirestore.instance.collection('users');
+  }
+
+  Future<void> addUsertoDatabase(String username, String password, context) async {
+    
+    final email = await FirebaseAuth.instance.currentUser!.email;
+    CollectionReference usersCollection = FirebaseFirestore.instance
+        .collection('admins')
+        .doc(email)
+        .collection('users');
 
     DocumentReference newMessageRef = usersCollection.doc();
     Map<String, dynamic> messageData = {

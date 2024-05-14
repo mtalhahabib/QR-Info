@@ -6,22 +6,24 @@ class RoundButton extends StatelessWidget {
   final String title;
   final bool loading;
   final double wid;
+  final IconData icon;
   final VoidCallback onPress;
 
   RoundButton({
     Key? key,
     required this.title,
     this.loading = false,
-    this.wid = 70,
+    this.wid = 120,
+    required this.icon,
     required this.onPress,
   }) : super(key: key);
-  AppColors color=AppColors();
+  AppColors color = AppColors();
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPress,
       child: Container(
-        height: 30,
+        height: 45,
         width: wid,
         decoration: BoxDecoration(
             color: color.buttonColor, borderRadius: BorderRadius.circular(3)),
@@ -30,9 +32,18 @@ class RoundButton extends StatelessWidget {
                 ? CircularProgressIndicator(
                     color: Colors.white,
                   )
-                : Text(
-                    title,
-                    style: TextStyle(color: color.whiteColor),
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        icon,
+                        color: color.whiteColor,
+                      ),
+                      Text(
+                        title,
+                        style: TextStyle(color: color.whiteColor),
+                      ),
+                    ],
                   )),
       ),
     );

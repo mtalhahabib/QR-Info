@@ -5,7 +5,7 @@ import 'package:qrinfo/view/adminView/createQr.dart';
 import '../../res/loginCredentials.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../utils/utils.dart';
-import '../../view/login.dart';
+import '../../view/login/loginAsUser.dart';
 
 class AdminViewModel extends ChangeNotifier {
   String _textFieldValue = 'Direct';

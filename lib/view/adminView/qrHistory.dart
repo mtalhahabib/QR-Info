@@ -65,6 +65,7 @@ class _QrImageState extends State<HistoryQr> {
             ),
             RoundButton(
                 title: "Take ScreenShot",
+                icon: Icons.screenshot,
                 wid: length,
                 onPress: () {
                   context

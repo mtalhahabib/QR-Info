@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:qrinfo/utils/routes/routes_name.dart';
 import 'package:qrinfo/view/adminView/manageUser/manageUsers.dart';
-import 'package:qrinfo/view/login.dart';
+import 'package:qrinfo/view/adminView/scan/adminResultView.dart';
+import 'package:qrinfo/view/login/loginAsAdmin.dart';
+import 'package:qrinfo/view/login/loginAsUser.dart';
 import 'package:qrinfo/view/adminView/createQr.dart';
 import 'package:qrinfo/view/adminView/start_admin.dart';
+import 'package:qrinfo/view/signUp.dart';
 import 'package:qrinfo/view/userView/resultView.dart';
 import 'package:qrinfo/view/userView/scanQr.dart';
 import 'package:qrinfo/view/userView/start_user.dart';
@@ -11,9 +14,6 @@ import 'package:qrinfo/view/userView/start_user.dart';
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case RoutesName.startAdmin:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const startAdmin());
       case RoutesName.startUser:
         return MaterialPageRoute(
             builder: (BuildContext context) => const UserScreen());
@@ -22,20 +22,26 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => const CreateQr());
 
-      case RoutesName.manageUsers:
+      case RoutesName.loginUser:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const ManageUsers());
-      case RoutesName.login:
+            builder: (BuildContext context) => const LoginUserScreen());
+      case RoutesName.loginAdmin:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const LoginScreen());
-     case RoutesName.scanQr:
+            builder: (BuildContext context) => const LoginAdminScreen());
+      case RoutesName.signUp:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const SignUpScreen());
+      case RoutesName.scanQr:
         return MaterialPageRoute(
             builder: (BuildContext context) => const ScanQr());
-     case RoutesName.result:
-     final data = settings.arguments as String?;
+
+      case RoutesName.result:
+        final data = settings.arguments as String?;
         return MaterialPageRoute(
-            builder: (BuildContext context) =>  Result(data: data,));
-     
+            builder: (BuildContext context) => Result(
+                  data: data,
+                ));
+
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(

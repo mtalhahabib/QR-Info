@@ -81,6 +81,7 @@ class _QrImageState extends State<QrImage> {
                       ),
                       RoundButton(
                           title: "Take ScreenShot",
+                          icon: Icons.screenshot,
                           wid: length,
                           onPress: () {context.read<QrViewModel>().
                             captureAndSaveScreenshot(globalKey);

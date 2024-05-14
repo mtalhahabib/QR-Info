@@ -9,8 +9,8 @@ import '../../../data/uploadData.dart';
 import '../../../utils/utils.dart';
 
 class ManageUsers extends StatefulWidget {
-  const ManageUsers({super.key});
-
+  ManageUsers({required String this.email, super.key});
+  String email;
   @override
   State<ManageUsers> createState() => _ManageUsersState();
 }
@@ -31,20 +31,20 @@ class _ManageUsersState extends State<ManageUsers> {
               SizedBox(height: 20),
               RoundButton(
                   title: 'Create',
+                  icon: Icons.create,
                   onPress: () {
-                  context.read<ManageUserViewModel>().createUser(context);
+                    context.read<ManageUserViewModel>().createUser(context);
                   }),
               SizedBox(height: 20),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    decoration:BoxDecoration(
-                      
-                    ),
-                    child: 
-                    StreamBuilder<QuerySnapshot>(
+                    decoration: BoxDecoration(),
+                    child: StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
+                            .collection('admins')
+                            .doc(widget.email)
                             .collection('users')
                             .orderBy("timestamp", descending: true)
                             .snapshots(),
@@ -52,12 +52,13 @@ class _ManageUsersState extends State<ManageUsers> {
                           if (snapshot.hasError) {
                             Utils.toastMessage(snapshot.error.toString());
                           }
-                          if (snapshot.connectionState == ConnectionState.waiting) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
                             return Center(
                               child: CircularProgressIndicator(),
                             );
                           }
-                          if(snapshot.data!.docs.isEmpty){
+                          if (snapshot.data!.docs.isEmpty) {
                             return Center(
                               child: Text('No User Found'),
                             );
@@ -67,8 +68,8 @@ class _ManageUsersState extends State<ManageUsers> {
                             return ListView.builder(
                               itemCount: messages.length,
                               itemBuilder: (context, index) {
-                                final message =
-                                    messages[index].data() as Map<String, dynamic>;
+                                final message = messages[index].data()
+                                    as Map<String, dynamic>;
                                 final userName = message['username'] as String;
                                 final password = message['password'] as String;
                                 return Card(
@@ -84,9 +85,10 @@ class _ManageUsersState extends State<ManageUsers> {
                                         children: [
                                           Row(
                                             children: [
-                                              Text('UserName:   ',style: TextStyle(
-                                                fontSize: 10
-                                              ),),
+                                              Text(
+                                                'UserName:   ',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
                                               Text(
                                                 userName,
                                               ),
@@ -95,10 +97,10 @@ class _ManageUsersState extends State<ManageUsers> {
                                           SizedBox(height: 10),
                                           Row(
                                             children: [
-                                              Text('Password:    ',style: TextStyle(
-                                                fontSize: 10
-                                              
-                                              ),),
+                                              Text(
+                                                'Password:    ',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
                                               Text(
                                                 password,
                                               ),
@@ -109,8 +111,10 @@ class _ManageUsersState extends State<ManageUsers> {
                                       trailing: IconButton(
                                           onPressed: () {
                                             Upload().deleteUser(
-                                                messages[index].id,);
-                                          }, icon: Icon(Icons.delete)),
+                                              messages[index].id,
+                                            );
+                                          },
+                                          icon: Icon(Icons.delete)),
                                     ),
                                   ),
                                 );

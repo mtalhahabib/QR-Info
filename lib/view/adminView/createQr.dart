@@ -43,24 +43,14 @@ class _CreateQrState extends State<CreateQr> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 1,
+        elevation: 0,
         title: Text(
           "Generate QR Code",
           style: TextStyle(
-            color: Colors.black,
+            fontWeight: FontWeight.bold
           ),
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HistoryView()));
-              },
-              icon: Icon(
-                Icons.history,
-                color: Colors.black,
-              ))
-        ],
+        
       ),
       body: SingleChildScrollView(
         child: Center(child:
@@ -215,6 +205,7 @@ class _CreateQrState extends State<CreateQr> {
               RoundButton(
                   title: "Generate",
                   wid: length,
+                  icon: Icons.qr_code,
                   onPress: () {
                     if (lab_name.text.isNotEmpty &&
                         product_name.text.isNotEmpty &&

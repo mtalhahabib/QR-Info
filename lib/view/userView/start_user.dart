@@ -34,6 +34,7 @@ class UserScreen extends StatelessWidget {
                     SizedBox(width: 10),
                     RoundButton(
                         title: "Scan",
+                        icon:Icons.qr_code_scanner,
                         onPress: () {
                           Navigator.pushNamed(context, RoutesName.scanQr);
                         })

@@ -8,8 +8,8 @@ import '../../utils/utils.dart';
 import 'qrHistory.dart';
 
 class HistoryView extends StatelessWidget {
-  const HistoryView({super.key});
-
+  HistoryView({required this.email, super.key});
+  String email;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,6 +22,8 @@ class HistoryView extends StatelessWidget {
       ),
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
+              .collection('admins')
+              .doc(email)
               .collection('qrData')
               .orderBy("timestamp", descending: true)
               .snapshots(),
