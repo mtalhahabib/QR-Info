@@ -63,13 +63,18 @@ class _AdminScreenState extends State<LoginUserScreen> {
                     onTap: () {
                       context.read<LoginViewModel>().selectCompany(context);
                     },
-
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.arrow_drop_down),
                       hintText: company.selectedCompany == ""
                           ? "Select Company"
                           : company.selectedCompany,
-                      labelText: "Select Company",
+                      labelStyle: TextStyle(
+                          color: company.selectedCompany == ""
+                              ? Colors.grey
+                              : Colors.black),
+                      labelText: company.selectedCompany == ""
+                          ? "Select Company"
+                          : company.selectedCompany,
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
@@ -112,18 +117,22 @@ class _AdminScreenState extends State<LoginUserScreen> {
               SizedBox(
                 height: 70,
               ),
-              RoundButton(
-                  title: "Submit",
-                  icon: Icons.login,
-                  wid: length,
-                  onPress: () {
-                    final companyName=context.read<LoginViewModel>().selectedCompany;
-                    context
-                        .read<LoginViewModel>()
-                        .login(companyName,name.text, pin.text, context);
-                    name.clear();
-                    pin.clear();
-                  }),
+              SizedBox(child:
+                  Consumer<LoginViewModel>(builder: (context, loading, child) {
+                return loading.isloading
+                    ? CircularProgressIndicator()
+                    : RoundButton(
+                        title: "Submit",
+                        icon: Icons.login,
+                        wid: length,
+                        onPress: () {
+                          final companyName =
+                              context.read<LoginViewModel>().selectedCompany;
+                          context
+                              .read<LoginViewModel>()
+                              .login(companyName, name.text, pin.text, context);
+                        });
+              })),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -28,10 +28,11 @@ class SignUpViewModel extends ChangeNotifier {
           .createUserWithEmailAndPassword(email: email, password: password);
       await FirebaseFirestore.instance.collection("admins").doc(email).set({
         "email": email,
-        'conmpanyName': name,
+        'companyName': name,
+        'password': password,
       });
 
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => startAdmin(

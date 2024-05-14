@@ -9,8 +9,8 @@ import 'package:qrinfo/view/userView/resultView.dart';
 import '../../utils/routes/routes_name.dart';
 
 class ScanQr extends StatefulWidget {
-  const ScanQr({super.key});
-
+  ScanQr({required this.adminEmail, super.key});
+  String adminEmail;
   @override
   State<ScanQr> createState() => _ScanQrState();
 }
@@ -70,7 +70,7 @@ class _ScanQrState extends State<ScanQr> {
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
+    controller.scannedDataStream.listen((scanData) async {
       // Cancel the listener
       // Cancel the subscription
       if (!shouldStopScanning) {
@@ -78,9 +78,13 @@ class _ScanQrState extends State<ScanQr> {
           result = scanData;
         });
         controller.dispose();
-        Navigator.pushNamed(context, RoutesName.result, arguments: result!.code);
+        await Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    Result(data: result!.code, adminEmail: widget.adminEmail)));
+        Navigator.pop(context);
       }
     });
   }
-
 }

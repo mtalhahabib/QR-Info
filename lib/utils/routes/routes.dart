@@ -14,10 +14,6 @@ import 'package:qrinfo/view/userView/start_user.dart';
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case RoutesName.startUser:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const UserScreen());
-
       case RoutesName.createQr:
         return MaterialPageRoute(
             builder: (BuildContext context) => const CreateQr());
@@ -31,16 +27,6 @@ class Routes {
       case RoutesName.signUp:
         return MaterialPageRoute(
             builder: (BuildContext context) => const SignUpScreen());
-      case RoutesName.scanQr:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const ScanQr());
-
-      case RoutesName.result:
-        final data = settings.arguments as String?;
-        return MaterialPageRoute(
-            builder: (BuildContext context) => Result(
-                  data: data,
-                ));
 
       default:
         return MaterialPageRoute(builder: (_) {

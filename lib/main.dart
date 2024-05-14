@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qrinfo/splash.dart';
 import 'package:qrinfo/utils/routes/routes.dart';
 import 'package:qrinfo/utils/routes/routes_name.dart';
 import 'package:qrinfo/view/login/loginAsUser.dart';
@@ -29,6 +31,8 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
+  
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -49,7 +53,7 @@ class MyApp extends StatelessWidget {
                 backgroundColor: Colors.white,
                 titleTextStyle: TextStyle(color: Colors.black),
                 iconTheme: IconThemeData(color: Colors.black))),
-        initialRoute: RoutesName.loginUser,
+        home: SplashScreen(),
         onGenerateRoute: Routes.generateRoute,
       ),
     );

@@ -9,8 +9,10 @@ import '../../utils/utils.dart';
 
 class Result extends StatefulWidget {
   String? data;
+  String adminEmail;
   Result({
     required this.data,
+    required this.adminEmail,
   });
   @override
   State<Result> createState() => _ResultState();
@@ -45,6 +47,8 @@ class _ResultState extends State<Result> {
         ),
         body: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
+                .collection('admins')
+                .doc(widget.adminEmail)
                 .collection('qrData')
                 .where('id', isEqualTo: widget.data)
                 .snapshots(),

@@ -71,7 +71,7 @@ class _ScanQrState extends State<AdminScanQr> {
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
+    controller.scannedDataStream.listen((scanData) async {
       // Cancel the listener
       // Cancel the subscription
       if (!shouldStopScanning) {
@@ -79,13 +79,14 @@ class _ScanQrState extends State<AdminScanQr> {
           result = scanData;
         });
         controller.dispose();
-        Navigator.push(
+        await Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => AdminScanResult(
                       data: result!.code,
                       email: widget.email,
                     )));
+        Navigator.pop(context);
       }
     });
   }

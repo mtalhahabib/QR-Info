@@ -24,8 +24,9 @@ class startAdmin extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.push(context,
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => LoginUserScreen()));
               },
               icon: Icon(Icons.logout))

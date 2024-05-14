@@ -87,17 +87,19 @@ class _AdminScreenState extends State<LoginAdminScreen> {
               SizedBox(
                 height: 100,
               ),
-              RoundButton(
-                  title: "Submit",
-                  icon: Icons.login_outlined,
-                  wid: length,
-                  onPress: () {
-                    context
-                        .read<LoginViewModel>()
-                        .loginAdmin(email.text, pin.text, context);
-                    email.clear();
-                    pin.clear();
-                  }),
+              SizedBox(child:
+                  Consumer<LoginViewModel>(builder: (context, loading, child) {
+                return loading.isloading
+                    ? CircularProgressIndicator()
+                    : RoundButton(
+                        title: "Submit",
+                        icon: Icons.login_outlined,
+                        wid: length,
+                        onPress: () {
+                          context.read<LoginViewModel>().loginAdmin(
+                              email.text.trim(), pin.text.trim(), context);
+                        });
+              })),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -106,7 +108,8 @@ class _AdminScreenState extends State<LoginAdminScreen> {
                           backgroundColor:
                               MaterialStateProperty.all(Colors.transparent)),
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, RoutesName.loginUser);
+                        Navigator.pushReplacementNamed(
+                            context, RoutesName.loginUser);
                       },
                       child: Text('Login As User'))
                 ],
@@ -119,7 +122,8 @@ class _AdminScreenState extends State<LoginAdminScreen> {
                           backgroundColor:
                               MaterialStateProperty.all(Colors.transparent)),
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, RoutesName.signUp);
+                        Navigator.pushReplacementNamed(
+                            context, RoutesName.signUp);
                       },
                       child: Text('Go to SignUp Page'))
                 ],
