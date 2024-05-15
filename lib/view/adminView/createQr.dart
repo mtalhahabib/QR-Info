@@ -10,8 +10,8 @@ import 'package:qrinfo/viewModel/adminViewModel/adminViewmodel.dart';
 import 'package:qrinfo/viewModel/adminViewModel/qrViewModel.dart';
 
 class CreateQr extends StatefulWidget {
-  const CreateQr({super.key});
-
+  CreateQr({required this.email, super.key});
+  String email;
   @override
   State<CreateQr> createState() => _CreateQrState();
 }
@@ -46,11 +46,8 @@ class _CreateQrState extends State<CreateQr> {
         elevation: 0,
         title: Text(
           "Generate QR Code",
-          style: TextStyle(
-            fontWeight: FontWeight.bold
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        
       ),
       body: SingleChildScrollView(
         child: Center(child:
@@ -61,9 +58,10 @@ class _CreateQrState extends State<CreateQr> {
               SizedBox(
                 height: 20,
               ),
-              Text('Nycotech',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w900,),),
+              RoundButton(title: 'Create', icon: Icons.create, onPress: () {}),
               SizedBox(
-                height: 20,),
+                height: 20,
+              ),
               Container(
                 width: length,
                 height: 40,
@@ -213,8 +211,7 @@ class _CreateQrState extends State<CreateQr> {
                         lot_no.text.isNotEmpty &&
                         cat_no.text.isNotEmpty &&
                         expiry.text.isNotEmpty &&
-                        distributor.text.isNotEmpty
-                        ) {
+                        distributor.text.isNotEmpty) {
                       Future<String?> url = context.read<QrViewModel>().getQr(
                           lab_name.text,
                           product_name.text,
@@ -239,7 +236,6 @@ class _CreateQrState extends State<CreateQr> {
                       cat_no.clear();
                       lot_no.clear();
                       distributor.clear();
-
                     } else {
                       Utils.flushBarErrorMessage(
                           "Please fill all the fields", context);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrinfo/res/components/button.dart';
 import 'package:qrinfo/utils/routes/routes_name.dart';
+import 'package:qrinfo/utils/utils.dart';
 import 'package:qrinfo/view/adminView/createQr.dart';
 
 import '../../viewModel/adminViewModel/adminViewmodel.dart';
@@ -128,9 +129,12 @@ class _AdminScreenState extends State<LoginUserScreen> {
                         onPress: () {
                           final companyName =
                               context.read<LoginViewModel>().selectedCompany;
-                          context
-                              .read<LoginViewModel>()
-                              .login(companyName, name.text, pin.text, context);
+                          if (companyName == ''||name.text.isEmpty||pin.text.isEmpty) {
+                            Utils.toastMessage('Please Fill All the Fields');
+                          } else {
+                            context.read<LoginViewModel>().login(
+                                companyName, name.text, pin.text, context);
+                          }
                         });
               })),
               Row(

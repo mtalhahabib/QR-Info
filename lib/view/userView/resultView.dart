@@ -25,6 +25,33 @@ class _ResultState extends State<Result> {
     super.initState();
   }
 
+  Future<List> getQrData() async {
+    final data = await FirebaseFirestore.instance
+        .collection('admins')
+        .doc(widget.adminEmail)
+        .collection('qrData')
+        .where('id', isEqualTo: widget.data)
+        .get();
+    final qrData =await data.docs.map((e) {
+      return [
+        e['name'],
+        e['product'],
+        e['analyzer'],
+        e['lot_no'],
+        e['cat_no'],
+        e['expiry'],
+        e['medium'],
+        e['distributor_name']
+      ];
+    }).toList();
+    final companyName = await FirebaseFirestore.instance
+        .collection('admins')
+        .doc(widget.adminEmail)
+        .get();
+    final name =await companyName.data()!['companyName'];
+    return [qrData, name];
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -45,13 +72,8 @@ class _ResultState extends State<Result> {
         appBar: AppBar(
           title: Text('Qr Result'),
         ),
-        body: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('admins')
-                .doc(widget.adminEmail)
-                .collection('qrData')
-                .where('id', isEqualTo: widget.data)
-                .snapshots(),
+        body: FutureBuilder<List>(
+            future: getQrData(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 Utils.toastMessage(snapshot.error.toString());
@@ -62,17 +84,18 @@ class _ResultState extends State<Result> {
                 );
               }
               if (snapshot.hasData) {
-                final messages = snapshot.data!.docs;
+                
 
-                final message = messages[0].data() as Map<String, dynamic>;
-                final name = message['name'] as String;
-                final product = message['product'] as String;
-                final analyzer = message['analyzer'] as String;
-                final lot_no = message['lot_no'] as String;
-                final cat_no = message['cat_no'] as String;
-                final expiry = message['expiry'] as String;
-                final medium = message['medium'] as String;
-                final distributor_name = message['distributor_name'] as String;
+                final message = snapshot.data![0][0] as List;
+                final companyName=snapshot.data![1] as String;
+                final name = message[0] as String;
+                final product = message[1] as String;
+                final analyzer = message[2] as String;
+                final lot_no = message[3] as String;
+                final cat_no = message[4] as String;
+                final expiry = message[5] as String;
+                final medium = message[6] as String;
+                final distributor_name = message[7] as String;
 
                 return Center(
                     child: Padding(
@@ -93,7 +116,7 @@ class _ResultState extends State<Result> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Nycotech',
+                              companyName,
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w900,

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qrinfo/res/components/button.dart';
+import 'package:qrinfo/view/adminView/createQr.dart';
 import 'package:qrinfo/view/adminView/historyView.dart';
 import 'package:qrinfo/view/adminView/manageUser/manageUsers.dart';
 import 'package:qrinfo/view/adminView/scan/adminScan_qr.dart';
@@ -64,7 +65,10 @@ class startAdmin extends StatelessWidget {
                       title: "Create Qr",
                       icon: Icons.create,
                       onPress: () {
-                        Navigator.pushNamed(context, RoutesName.createQr);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateQr(email:email)));
                       }),
                   SizedBox(width: 10),
                   RoundButton(
