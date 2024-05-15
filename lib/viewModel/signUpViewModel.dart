@@ -43,7 +43,10 @@ class SignUpViewModel extends ChangeNotifier {
       changeLoading(false);
     } on FirebaseAuthException catch (e) {
       changeLoading(false);
-      if (e.code == 'weak-password') {
+      if (e.message!.contains('network') || e.message!.contains('connection')) {
+        changeLoading(false);
+        Utils.toastMessage('Check Your Internet Connection');
+      } else if (e.code == 'weak-password') {
         Utils.toastMessage('Weak Password');
       } else if (e.code == 'email-already-in-use') {
         Utils.toastMessage('Email already in Use');

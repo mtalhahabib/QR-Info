@@ -49,6 +49,11 @@ class LoginViewModel extends ChangeNotifier {
                   )));
       changeLoading(false);
       Utils.toastMessage("Admin Logged in Sucessfully");
+    } on FirebaseAuthException catch (e) {
+      if (e.message!.contains('network') || e.message!.contains('connection')) {
+        changeLoading(false);
+        Utils.toastMessage('Check Your Internet Connection');
+      }
     } catch (e) {
       changeLoading(false);
       Utils.toastMessage(e.toString());
@@ -62,15 +67,19 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   Future getCompanyNames() async {
-    try{
+    try {
       final companyNames =
-        await FirebaseFirestore.instance.collection('admins').get();
-    final namesList =
-        await companyNames.docs.map((e) => e['companyName']).toList();
-    
-    return namesList;
-    }
-    catch(e){
+          await FirebaseFirestore.instance.collection('admins').get();
+      final namesList =
+          await companyNames.docs.map((e) => e['companyName']).toList();
+
+      return namesList;
+    } on FirebaseException catch (e) {
+      if (e.message!.contains('network') || e.message!.contains('connection')) {
+        changeLoading(false);
+        Utils.toastMessage('Check Your Internet Connection');
+      }
+    } catch (e) {
       Utils.toastMessage(e.toString());
     }
   }

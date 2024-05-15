@@ -37,6 +37,10 @@ class Verify {
                     UserScreen(adminEmail: email[0])));
         Utils.toastMessage('User Logged in Sucessfully');
       }
+    } on FirebaseException catch (e) {
+      if (e.message!.contains('network') || e.message!.contains('connection')) {
+        Utils.toastMessage('Check Your Internet Connection');
+      }
     } catch (error) {
       Utils.toastMessage(error.toString());
     }

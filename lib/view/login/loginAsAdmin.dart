@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qrinfo/res/components/button.dart';
 import 'package:qrinfo/utils/routes/routes_name.dart';
+import 'package:qrinfo/utils/utils.dart';
 import 'package:qrinfo/view/adminView/createQr.dart';
 
 import '../../viewModel/adminViewModel/adminViewmodel.dart';
@@ -96,8 +97,13 @@ class _AdminScreenState extends State<LoginAdminScreen> {
                         icon: Icons.login_outlined,
                         wid: length,
                         onPress: () {
-                          context.read<LoginViewModel>().loginAdmin(
-                              email.text.trim(), pin.text.trim(), context);
+                          
+                          if (email.text.isEmpty || pin.text.isEmpty) {
+                            Utils.toastMessage('Please Fill all the Fileds');
+                          } else {
+                            context.read<LoginViewModel>().loginAdmin(
+                                email.text.trim(), pin.text.trim(), context);
+                          }
                         });
               })),
               Row(
