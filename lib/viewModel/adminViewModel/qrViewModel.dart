@@ -15,19 +15,15 @@ import 'package:qrinfo/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 class QrViewModel extends ChangeNotifier {
-  Future<String?> getQr(name, product, analyzer_model,lot_no,cat_no,expiry,medium,distributor_name, BuildContext context) async {
+  Future<String?> getQr(list, BuildContext context) async {
     final String id = Uuid().v4();
     Uint8List? qrCode = await generateQrImageData(id);
     String? qrImageUrl = await Upload().uploadImageToFirebaseStorage(qrCode);
-    Upload().uploadData(id, name, product, analyzer_model,lot_no,cat_no,expiry,medium,distributor_name,qrImageUrl, context);
+    Upload().uploadData(id,list, qrImageUrl, context);
 
     return qrImageUrl;
   }
 
-
-
-
-  
   Future<Uint8List> generateQrImageData(String qrData) async {
     final qrPainter = QrPainter(
       data: qrData,
@@ -41,12 +37,11 @@ class QrViewModel extends ChangeNotifier {
 
     final image = await qrPainter.toImage(200); // Set the desired image size
     final byteData = await image.toByteData(format: ImageByteFormat.png);
-    
 
     return byteData!.buffer.asUint8List();
   }
 
-     Future<Uint8List?> captureScreenshot(globalKey) async {
+  Future<Uint8List?> captureScreenshot(globalKey) async {
     try {
       RenderRepaintBoundary boundary =
           globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
@@ -57,7 +52,7 @@ class QrViewModel extends ChangeNotifier {
       Uint8List uint8list = byteData!.buffer.asUint8List();
       return uint8list;
     } catch (e) {
-     // print("Error capturing screenshot: $e");
+      // print("Error capturing screenshot: $e");
       return null;
     }
   }
@@ -69,14 +64,86 @@ class QrViewModel extends ChangeNotifier {
 
       if (result['isSuccess']) {
         Utils.toastMessage('Saved to Gallery');
-      //  print("Screenshot saved to gallery");
+        //  print("Screenshot saved to gallery");
       } else {
         Utils.toastMessage('Error saving to Gallery');
-       // print("Error saving screenshot: ${result['errorMessage']}");
+        // print("Error saving screenshot: ${result['errorMessage']}");
       }
     }
   }
 
+  List infoList = [];
+  addToList(val) {
+    infoList.add(val);
+    notifyListeners();
+  }
 
+  remove(index) {
+    infoList.removeAt(index);
+    notifyListeners();
+  }
 
+  deleteList() {
+    infoList.clear();
+    notifyListeners();
+  }
+
+  TextEditingController info = TextEditingController();
+  Future<void> createInfo(context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.grey,
+                  )),
+              SizedBox(width: 10),
+              Text('Write Information'),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                child: TextField(
+                  controller: info,
+                  decoration: InputDecoration(labelText: 'Info'),
+                ),
+              ),
+              SizedBox(height: 10),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                if (info.text.isNotEmpty) {
+                  addToList(info.text);
+                  info.clear();
+                }
+
+                Navigator.of(context).pop();
+              },
+              child: Text('Create'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                info.clear();
+
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

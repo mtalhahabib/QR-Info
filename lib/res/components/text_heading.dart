@@ -4,7 +4,7 @@ import '../color.dart';
 
 class Text_heading extends StatelessWidget {
   final String heading;
-  final String text;
+  final List text;
 
   Text_heading({
     Key? key,
@@ -14,20 +14,28 @@ class Text_heading extends StatelessWidget {
   AppColors color = AppColors();
   @override
   Widget build(BuildContext context) {
+    String concatenatedItems = text.join('\n');
     return Row(
       children: [
-        Text(heading,style: TextStyle(fontSize: 10),),
-        SizedBox(
-          width: 50,
-        ),
         Text(
-          text,
-          style: TextStyle(
-            //  fontSize: 20,
-            fontWeight: FontWeight.bold,
-            fontSize: 10
-          ),
+          heading,
+          style: TextStyle(fontSize: 10),
         ),
+        SizedBox(
+          width: 25,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width*0.5,
+          child: Text(
+            concatenatedItems,
+            maxLines: null,
+            overflow: TextOverflow.visible,
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+        )
       ],
     );
   }

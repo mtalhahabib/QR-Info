@@ -44,7 +44,7 @@ class _QrImageState extends State<HistoryQr> {
                   child: Column(
                     children: [
                       Text(
-                        'Nycotech',
+                        'Generated QR',
                         style: TextStyle(
                           color: Colors.blue,
                           fontSize: 20,

@@ -32,23 +32,17 @@ class _ResultState extends State<Result> {
         .collection('qrData')
         .where('id', isEqualTo: widget.data)
         .get();
-    final qrData =await data.docs.map((e) {
+    final qrData = await data.docs.map((e) {
       return [
-        e['name'],
-        e['product'],
-        e['analyzer'],
-        e['lot_no'],
-        e['cat_no'],
-        e['expiry'],
-        e['medium'],
-        e['distributor_name']
+        e['dataList'],
       ];
     }).toList();
     final companyName = await FirebaseFirestore.instance
         .collection('admins')
         .doc(widget.adminEmail)
         .get();
-    final name =await companyName.data()!['companyName'];
+    final name = await companyName.data()!['companyName'];
+
     return [qrData, name];
   }
 
@@ -84,19 +78,12 @@ class _ResultState extends State<Result> {
                 );
               }
               if (snapshot.hasData) {
-                
-
                 final message = snapshot.data![0][0] as List;
-                final companyName=snapshot.data![1] as String;
-                final name = message[0] as String;
-                final product = message[1] as String;
-                final analyzer = message[2] as String;
-                final lot_no = message[3] as String;
-                final cat_no = message[4] as String;
-                final expiry = message[5] as String;
-                final medium = message[6] as String;
-                final distributor_name = message[7] as String;
+                final companyName = snapshot.data![1] as String;
 
+                final data = message[0];
+                String concatenatedItems = data.join('\n');
+                
                 return Center(
                     child: Padding(
                   padding: const EdgeInsets.all(32.0),
@@ -104,54 +91,37 @@ class _ResultState extends State<Result> {
                     elevation: 10,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 500,
-                        width: 600,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.blue),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              companyName,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
+                      child: SingleChildScrollView(
+                        child: Container(
+                          height: 500,
+                          width: 600,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.blue),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Data Encoded By QR',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Text('Hospital Name:           $name'),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text('Analyzer Model:              $analyzer'),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text('LOT No:                      $lot_no'),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text('CAT No:                      $cat_no'),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text('Expiry:                      $expiry'),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text('Medium:                   $medium'),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                                'Distributor:                 $distributor_name'),
-                          ],
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  concatenatedItems,
+                                  textAlign: TextAlign.center,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

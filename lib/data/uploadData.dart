@@ -6,8 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../utils/utils.dart';
 
 class Upload {
-  Future<void> uploadData(id, name, product, model, lot_no, cat_no, expiry,
-      medium, distributor_name, image, context) async {
+  Future<void> uploadData(id,list, image, context) async {
     final email = await FirebaseAuth.instance.currentUser!.email;
     CollectionReference chatsCollection = FirebaseFirestore.instance
         .collection('admins')
@@ -16,15 +15,8 @@ class Upload {
 
     DocumentReference newMessageRef = chatsCollection.doc();
     Map<String, dynamic> messageData = {
-      'id': id,
-      'name': name,
-      'product': product,
-      'analyzer': model,
-      'lot_no': lot_no,
-      'cat_no': cat_no,
-      'expiry': expiry,
-      'medium': medium,
-      'distributor_name': distributor_name,
+      'id':id,
+      'dataList': list,
       'image': image,
       'timestamp': DateTime.now(),
     };
@@ -56,8 +48,8 @@ class Upload {
     }
   }
 
-  Future<void> addUsertoDatabase(String username, String password, context) async {
-    
+  Future<void> addUsertoDatabase(
+      String username, String password, context) async {
     final email = await FirebaseAuth.instance.currentUser!.email;
     CollectionReference usersCollection = FirebaseFirestore.instance
         .collection('admins')

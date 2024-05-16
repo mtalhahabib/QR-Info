@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
               } else if (snapshot.hasData) {
                 return snapshot.data;
               } else {
-                 return Center(
+                return Center(
                   child: CircularProgressIndicator(
                     color: Colors.white,
                   ),
@@ -55,9 +55,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Center(
-            child: CircularProgressIndicator(
-          color: Colors.white,
-        )));
+        body: Center(child: Image.asset('assets/logo.png')));
   }
 }

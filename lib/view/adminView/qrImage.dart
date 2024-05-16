@@ -60,7 +60,7 @@ class _QrImageState extends State<QrImage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Nycotech',
+                                  'Generated QR',
                                   style: TextStyle(
                                     color: Colors.blue,
                                     fontSize: 20,

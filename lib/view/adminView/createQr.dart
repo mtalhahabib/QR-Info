@@ -17,23 +17,8 @@ class CreateQr extends StatefulWidget {
 }
 
 class _CreateQrState extends State<CreateQr> {
-  TextEditingController lab_name = TextEditingController();
-  TextEditingController product_name = TextEditingController();
-  TextEditingController analyzer_model = TextEditingController();
-  TextEditingController lot_no = TextEditingController();
-  TextEditingController cat_no = TextEditingController();
-  TextEditingController expiry = TextEditingController();
-  TextEditingController distributor = TextEditingController();
-
   @override
   void dispose() {
-    lab_name.dispose();
-    product_name.dispose();
-    analyzer_model.dispose();
-    lot_no.dispose();
-    cat_no.dispose();
-    expiry.dispose();
-    distributor.dispose();
     super.dispose();
   }
 
@@ -58,144 +43,52 @@ class _CreateQrState extends State<CreateQr> {
               SizedBox(
                 height: 20,
               ),
-              RoundButton(title: 'Create', icon: Icons.create, onPress: () {}),
+              RoundButton(
+                  title: 'Create',
+                  icon: Icons.create,
+                  onPress: () {
+                    context.read<QrViewModel>().createInfo(context);
+                  }),
               SizedBox(
                 height: 20,
               ),
               Container(
-                width: length,
-                height: 40,
-                child: TextField(
-                  controller: lab_name,
-                  decoration: InputDecoration(
-                    hintText: "Enter name",
-                    labelText: "Lab/Hospital Name",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: length,
-                height: 40,
-                child: TextField(
-                  controller: product_name,
-                  decoration: InputDecoration(
-                    hintText: "product",
-                    labelText: "Product Name",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: length,
-                height: 40,
-                child: TextField(
-                  controller: analyzer_model,
-                  decoration: InputDecoration(
-                    hintText: "analyzer_model",
-                    labelText: "Analyzer Model",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: length,
-                height: 40,
-                child: TextField(
-                  controller: lot_no,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: "lot_no",
-                    labelText: "LOT no",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: length,
-                height: 40,
-                child: TextField(
-                  controller: cat_no,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: "cat_no",
-                    labelText: "CAT No",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: length,
-                height: 40,
-                child: TextField(
-                  controller: expiry,
-                  keyboardType: TextInputType.datetime,
-                  decoration: InputDecoration(
-                    hintText: "expiry_date",
-                    labelText: "Expiry",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                height: 40,
-                width: length,
-                child: TextField(
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    suffixIcon: Icon(Icons.arrow_drop_down_circle_outlined),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                  onTap: () {
-                    context.read<AdminViewModel>().showOptions(
-                          context,
-                        );
-                  },
-                  controller: TextEditingController(
-                    text: textFieldModel.textFieldValue,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: length,
-                height: 40,
-                child: TextField(
-                  controller: distributor,
-                  decoration: InputDecoration(
-                    hintText: "distributor",
-                    labelText: "Distributor Name",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                ),
+                height: MediaQuery.of(context).size.height * 0.55,
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Consumer<QrViewModel>(builder: (context, qr, child) {
+                      return ListView.builder(
+                        itemCount: qr.infoList.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            elevation: 7,
+                            color: Colors.grey[200],
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                leading: Text(
+                                  index.toString(),
+                                ),
+                                title: Column(
+                                  children: [
+                                    Text(
+                                      qr.infoList[index],
+                                      maxLines: null,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                  ],
+                                ),
+                                trailing: IconButton(
+                                    onPressed: () {
+                                      qr.remove(index);
+                                    },
+                                    icon: Icon(Icons.delete)),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    })),
               ),
               SizedBox(
                 height: 50,
@@ -204,42 +97,18 @@ class _CreateQrState extends State<CreateQr> {
                   title: "Generate",
                   wid: length,
                   icon: Icons.qr_code,
-                  onPress: () {
-                    if (lab_name.text.isNotEmpty &&
-                        product_name.text.isNotEmpty &&
-                        analyzer_model.text.isNotEmpty &&
-                        lot_no.text.isNotEmpty &&
-                        cat_no.text.isNotEmpty &&
-                        expiry.text.isNotEmpty &&
-                        distributor.text.isNotEmpty) {
-                      Future<String?> url = context.read<QrViewModel>().getQr(
-                          lab_name.text,
-                          product_name.text,
-                          analyzer_model.text,
-                          lot_no.text,
-                          cat_no.text,
-                          expiry.text,
-                          textFieldModel.textFieldValue,
-                          distributor.text,
-                          context);
-                      Future.delayed(Duration(seconds: 3), () {});
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => QrImage(
-                                    url: url,
-                                  )));
-                      lab_name.clear();
-                      product_name.clear();
-                      analyzer_model.clear();
-                      expiry.clear();
-                      cat_no.clear();
-                      lot_no.clear();
-                      distributor.clear();
-                    } else {
-                      Utils.flushBarErrorMessage(
-                          "Please fill all the fields", context);
-                    }
+                  onPress: () async {
+                    final getInfoList = context.read<QrViewModel>().infoList;
+                    Future<String?> url =
+                         context.read<QrViewModel>().getQr(getInfoList, context);
+                    Future.delayed(Duration(seconds: 3), () {});
+                  await  Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => QrImage(
+                                  url: url,
+                                )));
+                    context.read<QrViewModel>().deleteList();
                   })
             ],
           );

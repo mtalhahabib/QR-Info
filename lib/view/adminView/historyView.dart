@@ -38,20 +38,14 @@ class HistoryView extends StatelessWidget {
             }
             if (snapshot.hasData) {
               final messages = snapshot.data!.docs;
+
               return ListView.builder(
                 itemCount: messages.length,
                 itemBuilder: (context, index) {
                   final message =
                       messages[index].data() as Map<String, dynamic>;
-                  final name = message['name'] as String;
-                  final product = message['product'] as String;
-                  final analyzer = message['analyzer'] as String;
-                  final lot_no = message['lot_no'] as String;
-                  final cat_no = message['cat_no'] as String;
-                  final expiry = message['expiry'] as String;
-                  final medium = message['medium'] as String;
-                  final distributor_name =
-                      message['distributor_name'] as String;
+                  final dataList = message['dataList'] as List;
+                  
                   final url = message['image'] as String;
                   return Card(
                     elevation: 10,
@@ -64,38 +58,10 @@ class HistoryView extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text_heading(heading: "Name", text: name),
+                                Text_heading(heading: '${index}', text: dataList),
                                 SizedBox(
                                   height: 5,
                                 ),
-                                Text_heading(heading: "Product", text: product),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text_heading(
-                                    heading: "Analyzer", text: analyzer),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text_heading(heading: "Lot No", text: lot_no),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text_heading(heading: "Cat No", text: cat_no),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text_heading(heading: "Expiry", text: expiry),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text_heading(heading: "Medium", text: medium),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text_heading(
-                                    heading: "Distributor Name",
-                                    text: distributor_name),
                               ],
                             ),
                             Expanded(child: SizedBox()),
